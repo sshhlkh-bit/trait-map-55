@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Дослідження Особистості | Дмитро Будяк</title>
+    <title>Психологічне Дослідження</title>
     <style>
         :root { --bg: #F2F1E8; --card: #FFFFFF; --olive: #716F4F; --text: #333333; }
         body { font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
         .container { background: var(--card); max-width: 500px; width: 100%; border-radius: 24px; padding: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); position: relative; }
-        .watermark { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; background-image: url("data:image/svg+xml,%3Csvg width='250' height='250' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='18' font-family='Arial' font-weight='800' fill='%23716F4F' fill-opacity='0.04' text-anchor='middle' transform='rotate(-35 125 125)'%3E@dmytro_budiak%3C/text%3E%3C/svg%3E"); }
         input { width: 100%; padding: 16px; margin-bottom: 15px; border: 1px solid #DDD; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; background: #F9F9F9; }
         .btn { background: var(--olive); color: #FFF; border: none; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: 600; width: 100%; cursor: pointer; }
         .opt-btn { background: #FFF; border: 1px solid #DDD; padding: 14px; border-radius: 12px; margin-bottom: 8px; width: 100%; font-size: 15px; cursor: pointer; text-align: center; color: var(--text); }
@@ -18,28 +17,26 @@
     </style>
 </head>
 <body>
-<div class="watermark"></div>
 <div class="container" id="mainCard">
     <div id="step-reg">
-        <h2 style="text-align:center; margin-bottom:25px;">Вхід до опитування</h2>
+        <h2 style="text-align:center; margin-bottom:25px;">Реєстрація</h2>
         <input type="text" id="uName" placeholder="Ваше ім'я">
         <input type="tel" id="uPhone" placeholder="Номер телефону">
-        <button class="btn" onclick="startTest()">Розпочати</button>
+        <button class="btn" onclick="startTest()">Розпочати тест</button>
     </div>
     <div id="step-test" style="display: none;">
         <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
         <div id="qArea"></div>
     </div>
     <div id="step-final" style="display: none; text-align: center;">
-        <h2>Дякуємо!</h2>
-        <p>Ваші результати успішно відправлені фахівцю. Ми зв'яжемося з вами найближчим часом.</p>
+        <h2>Тест завершено!</h2>
+        <p>Ваші результати передані фахівцю. Дякуємо за довіру.</p>
     </div>
 </div>
 
 <script>
-    // --- ДАНІ ТЕСТУ (120 питань IPIP-NEO) ---
     const questions = [
-        // N - Нейротизм (f1: Тривога, f2: Злість, f3: Депресія, f4: Сором'язливість, f5: Невгамовність, f6: Вразливість)
+        // N - Нейротизм
         { t: "Я часто відчуваю, що щось небезпечне ось-ось станеться", c: "N", f: 1, r: false }, { t: "Я зазвичай спокійний і не турбуюся", c: "N", f: 1, r: true },
         { t: "Я відчуваю лють, коли щось йде не так", c: "N", f: 2, r: false }, { t: "Я рідко серджуся", c: "N", f: 2, r: true },
         { t: "Я часто відчуваю смуток і пригніченість", c: "N", f: 3, r: false }, { t: "Я почуваюся бадьоро і оптимістично", c: "N", f: 3, r: true },
@@ -63,7 +60,7 @@
         // A - Доброзичливість
         { t: "Я вірю, що люди в основі своїй добрі", c: "A", f: 1, r: false }, { t: "Я часто сумніваюся в намірах інших", c: "A", f: 1, r: true },
         { t: "Я завжди кажу правду в очі", c: "A", f: 2, r: false }, { t: "Я вважаю, що хитрість іноді корисна", c: "A", f: 2, r: true },
-        { t: "Я отримую задоволення від допомоги іншим", c: "A", f: 3, r: false }, { t: "Я дбаю передусім про себе", c: "A", f: 3, r: true },
+        { t: "Я отримамую задоволення від допомоги іншим", c: "A", f: 3, r: false }, { t: "Я дбаю передусім про себе", c: "A", f: 3, r: true },
         { t: "Я легко йду на компроміс", c: "A", f: 4, r: false }, { t: "Я вперто стою на своєму", c: "A", f: 4, r: true },
         { t: "Я не вважаю себе кращим за інших", c: "A", f: 5, r: false }, { t: "Я пишаюся своїми перевагами над іншими", c: "A", f: 5, r: true },
         { t: "Я дуже співчуваю тим, кому не щастить", c: "A", f: 6, r: false }, { t: "Я вважаю, що кожна людина сама винна в своїх проблемах", c: "A", f: 6, r: true },
@@ -74,15 +71,14 @@
         { t: "Я завжди прагну найкращих результатів", c: "C", f: 4, r: false }, { t: "Мені вистачає мінімальних зусиль", c: "C", f: 4, r: true },
         { t: "Я дуже дисциплінована людина", c: "C", f: 5, r: false }, { t: "Мені важко доводити справи до кінця", c: "C", f: 5, r: true },
         { t: "Я завжди думаю, перш ніж діяти", c: "C", f: 6, r: false }, { t: "Я часто дію під впливом моменту", c: "C", f: 6, r: true }
-        // (Для повної версії тут мають бути 120 питань, але ми взяли 60 для балансу точності/швидкості)
     ];
 
     const texts = {
-        N: { mainH: "Високий нейротизм: ви чутливі та емоційні, легко засмучуєтесь.", mainL: "Низький нейротизм: ви емоційно стабільні та спокійні.", f: { 1:"Тривога", 2:"Злість", 3:"Депресія", 4:"Сором’язливість", 5:"Невгамовність", 6:"Вразливість" } },
-        E: { mainH: "Висока екстраверсія: ви соціальні, енергійні та жваві.", mainL: "Низька екстраверсія: ви інтровертні, любите спокій.", f: { 1:"Дружелюбність", 2:"Компанійськість", 3:"Наполегливість", 4:"Активність", 5:"Пошук збуджень", 6:"Життєрадісність" } },
-        O: { mainH: "Висока відкритість: ви творча людина з багатою уявою.", mainL: "Низька відкритість: ви приземлена і практична людина.", f: { 1:"Уява", 2:"Художні інтереси", 3:"Емоційність", 4:"Пригодницькість", 5:"Інтелект", 6:"Лібералізм" } },
-        A: { mainH: "Висока доброзичливість: ви співчутливі та цінуєте гармонію.", mainL: "Низька доброзичливість: ви жорсткі та безкомпромісні.", f: { 1:"Довіра", 2:"Моральність", 3:"Альтруїзм", 4:"Співпраця", 5:"Скромність", 6:"Співчуття" } },
-        C: { mainH: "Висока сумлінність: ви організовані та дисципліновані.", mainL: "Низька сумлінність: ви живете моментом, схильні до недбалості.", f: { 1:"Самоефективність", 2:"Організованість", 3:"Відповідальність", 4:"Прагнення досягнень", 5:"Самодисципліна", 6:"Обачність" } }
+        N: { h: "Високий нейротизм: схильність до тривоги.", l: "Емоційна стабільність.", f: {1:"Тривога", 2:"Злість", 3:"Депресія", 4:"Сором’язливість", 5:"Невгамовність", 6:"Вразливість"} },
+        E: { h: "Висока екстраверсія: енергійність.", l: "Інтроверсія: спокій.", f: {1:"Дружелюбність", 2:"Компанійськість", 3:"Наполегливість", 4:"Активність", 5:"Пошук збуджень", 6:"Життєрадісність"} },
+        O: { h: "Висока відкритість: творчість.", l: "Практичність.", f: {1:"Уява", 2:"Інтереси", 3:"Емоційність", 4:"Пригоди", 5:"Інтелект", 6:"Лібералізм"} },
+        A: { h: "Висока доброзичливість.", l: "Конкурентність.", f: {1:"Довіра", 2:"Моральність", 3:"Альтруїзм", 4:"Співпраця", 5:"Скромність", 6:"Співчуття"} },
+        C: { h: "Висока сумлінність.", l: "Спонтанність.", f: {1:"Ефективність", 2:"Порядок", 3:"Відповідальність", 4:"Досягнення", 5:"Дисципліна", 6:"Обачність"} }
     };
 
     let cur = 0, uName = "", uPhone = "";
@@ -91,7 +87,7 @@
     function startTest() {
         uName = document.getElementById('uName').value;
         uPhone = document.getElementById('uPhone').value;
-        if(!uName || !uPhone) return alert("Заповніть дані");
+        if(!uName || !uPhone) return alert("Будь ласка, вкажіть ім'я та телефон");
         document.getElementById('step-reg').style.display = 'none';
         document.getElementById('step-test').style.display = 'block';
         render();
@@ -115,31 +111,33 @@
     }
 
     function finish() {
-        document.getElementById('step-test').style.display = 'none';
-        document.getElementById('step-final').style.display = 'block';
+        document.getElementById('step-test').innerHTML = "<h3>Відправка результатів...</h3>";
         
         let sums = { 
-            N: s.N[1]+s.N[2]+s.N[3]+s.N[4]+s.N[5]+s.N[6],
-            E: s.E[1]+s.E[2]+s.E[3]+s.E[4]+s.E[5]+s.E[6],
-            O: s.O[1]+s.O[2]+s.O[3]+s.O[4]+s.O[5]+s.O[6],
-            A: s.A[1]+s.A[2]+s.A[3]+s.A[4]+s.A[5]+s.A[6],
-            C: s.C[1]+s.C[2]+s.C[3]+s.C[4]+s.C[5]+s.C[6]
+            N: Object.values(s.N).reduce((a,b)=>a+b),
+            E: Object.values(s.E).reduce((a,b)=>a+b),
+            O: Object.values(s.O).reduce((a,b)=>a+b),
+            A: Object.values(s.A).reduce((a,b)=>a+b),
+            C: Object.values(s.C).reduce((a,b)=>a+b)
         };
 
-        let report = "";
+        let report = "АНАЛІЗ ПРОФІЛЮ:\n\n";
         ["N","E","O","A","C"].forEach(c => {
-            report += `=== ${c} (Бал: ${sums[c]}) ===\n`;
-            report += (sums[c] >= 36 ? texts[c].mainH : texts[c].mainL) + "\n";
+            report += `--- ${c} (Бал: ${sums[c]}) ---\n`;
+            report += (sums[c] >= 36 ? texts[c].h : texts[c].l) + "\n";
             for(let i=1; i<=6; i++) report += `• ${texts[c].f[i]}: ${s[c][i]}/10\n`;
             report += "\n";
         });
 
-        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzGMqcV_BAc9zuWmGV9UO96OWWtTaqKZtAq2IF2JXG27EWJ9G9ogE6lrwBVhO63E_DQfA/exec'; // <--- ТВОЄ ПОСИЛАННЯ ТУТ
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwDRP284C9CLy5hJ0ZFheEz4dbpVCzJSY_aTbQ2_NixR2zLpV-qNzUtkNCxvQI9FO68-g/exec'; // <-- ЗАМІНИ ЦЕ ПОСИЛАННЯ
 
         fetch(WEBHOOK_URL, {
             method: 'POST',
             mode: 'no-cors',
             body: JSON.stringify({ name: uName, phone: uPhone, scores: sums, fullReport: report })
+        }).then(() => {
+            document.getElementById('step-test').style.display = 'none';
+            document.getElementById('step-final').style.display = 'block';
         });
     }
 </script>
