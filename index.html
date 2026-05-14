@@ -1,262 +1,146 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta name="robots" content="noindex, nofollow">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Опитування | Дмитро Будяк</title>
+    <title>Дослідження Особистості | Дмитро Будяк</title>
     <style>
-        :root { --bg-part1: #F2F1E8; --card-bg: #FFFFFF; --accent-olive: #716F4F; --text-main: #333333; }
-        body { font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg-part1); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root { --bg: #F2F1E8; --card: #FFFFFF; --olive: #716F4F; --text: #333333; }
+        body { font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        .container { background: var(--card); max-width: 500px; width: 100%; border-radius: 24px; padding: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); position: relative; }
         .watermark { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; background-image: url("data:image/svg+xml,%3Csvg width='250' height='250' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='18' font-family='Arial' font-weight='800' fill='%23716F4F' fill-opacity='0.04' text-anchor='middle' transform='rotate(-35 125 125)'%3E@dmytro_budiak%3C/text%3E%3C/svg%3E"); }
-        .tg-notif { position: fixed; top: -150px; left: 50%; transform: translateX(-50%); background: #FFF; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; padding: 12px; width: 92%; max-width: 400px; z-index: 2000; transition: top 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2); align-items: center; gap: 12px; }
-        .tg-notif.active { top: 20px; }
-        .tg-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #eee; }
-        .tg-user { font-weight: 700; font-size: 14px; display: block; margin-bottom: 2px; }
-        .tg-msg { font-size: 13px; color: #444; line-height: 1.3; }
-        .container { background: var(--card-bg); max-width: 450px; width: 100%; border-radius: 24px; padding: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); position: relative; z-index: 10; }
         input { width: 100%; padding: 16px; margin-bottom: 15px; border: 1px solid #DDD; border-radius: 12px; font-size: 16px; box-sizing: border-box; outline: none; background: #F9F9F9; }
-        .btn { background: var(--accent-olive); color: #FFF; border: none; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: 600; width: 100%; cursor: pointer; }
-        .opt-btn { background: #FFF; border: 1px solid #DDD; padding: 14px; border-radius: 12px; margin-bottom: 8px; width: 100%; font-size: 15px; cursor: pointer; text-align: center; color: var(--text-main); transition: all 0.2s; }
-        .opt-btn:active { background: rgba(113, 111, 79, 0.1); }
+        .btn { background: var(--olive); color: #FFF; border: none; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: 600; width: 100%; cursor: pointer; }
+        .opt-btn { background: #FFF; border: 1px solid #DDD; padding: 14px; border-radius: 12px; margin-bottom: 8px; width: 100%; font-size: 15px; cursor: pointer; text-align: center; color: var(--text); }
         .progress-bar { height: 4px; background: #EEE; border-radius: 2px; margin-bottom: 25px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--accent-olive); width: 0%; transition: 0.3s; }
+        .progress-fill { height: 100%; background: var(--olive); width: 0%; transition: 0.3s; }
         .q-text { font-size: 19px; font-weight: 500; text-align: center; margin-bottom: 25px; line-height: 1.4; }
-        .final-box { background: #FFF; border-radius: 20px; padding: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); max-width: 350px; margin: 0 auto; }
     </style>
 </head>
 <body>
-
 <div class="watermark"></div>
-
-<div class="tg-notif" id="tgNotif">
-    <img src="https://mentalzon.s3.amazonaws.com/photo/8f29c1b0-afd9-4aac-996c-7b2fd41cb358.jpg?1776759364224" class="tg-avatar">
-    <div class="tg-info">
-        <span class="tg-user">Дмитро Будяк</span>
-        <div class="tg-msg" id="tgMsg"></div>
-    </div>
-</div>
-
 <div class="container" id="mainCard">
     <div id="step-reg">
-        <h2 style="text-align:center; font-size:22px; margin-bottom:25px;">Вхід до опитування</h2>
-        <input type="text" id="uName" placeholder="Ваше ім'я" autocomplete="off">
-        <input type="tel" id="uPhone" placeholder="Номер телефону" autocomplete="off">
+        <h2 style="text-align:center; margin-bottom:25px;">Вхід до опитування</h2>
+        <input type="text" id="uName" placeholder="Ваше ім'я">
+        <input type="tel" id="uPhone" placeholder="Номер телефону">
         <button class="btn" onclick="startTest()">Розпочати</button>
     </div>
-
     <div id="step-test" style="display: none;">
         <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
         <div id="qArea"></div>
     </div>
-
-    <div id="step-final" style="display: none;">
-        <div class="final-box">
-            <div style="display:flex; gap:12px; align-items:center; margin-bottom:15px;">
-                <img src="https://mentalzon.s3.amazonaws.com/photo/8f29c1b0-afd9-4aac-996c-7b2fd41cb358.jpg?1776759364224" style="width:45px; height:45px; border-radius:50%;">
-                <span style="font-weight:700;">Дмитро Будяк</span>
-            </div>
-            Дякую за вашу щирість, <span id="resName"></span>! <br><br>Ваші відповіді допоможуть нам сформувати точну стратегію нашої подальшої роботи. До зустрічі! 🤝
-        </div>
+    <div id="step-final" style="display: none; text-align: center;">
+        <h2>Дякуємо!</h2>
+        <p>Ваші результати успішно відправлені фахівцю. Ми зв'яжемося з вами найближчим часом.</p>
     </div>
 </div>
 
 <script>
-    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzhySnYZ3r2lKttYe94x2iyfLOHyErAeDSc0v4YuvF2tMzxXxNdsJtr1hP8h7sump_JEA/exec"; 
-
-    // Скорочений набір питань (60 шт) для точного розрахунку 30 фасетів
+    // --- ДАНІ ТЕСТУ (120 питань IPIP-NEO) ---
     const questions = [
-        { text: "Я часто відчуваю, що щось небезпечне ось-ось станеться", cat: "N", f: 1, rev: false }, { text: "Я майже ніколи не нервую", cat: "N", f: 1, rev: true },
-        { text: "Я відчуваю лють, коли щось іде не так", cat: "N", f: 2, rev: false }, { text: "Я рідко або ніколи не серджуся", cat: "N", f: 2, rev: true },
-        { text: "Я часто відчуваю смуток і пригніченість", cat: "N", f: 3, rev: false }, { text: "Я сповнений енергії", cat: "N", f: 3, rev: true },
-        { text: "Я легко бентежуся в присутності інших", cat: "N", f: 4, rev: false }, { text: "Мене не хвилює, що про мене думають", cat: "N", f: 4, rev: true },
-        { text: "Мені важко протистояти спокусам і бажанням", cat: "N", f: 5, rev: false }, { text: "Я легко контролюю свої пориви", cat: "N", f: 5, rev: true },
-        { text: "Я відчуваю паніку під час стресу", cat: "N", f: 6, rev: false }, { text: "Я ясно мислю навіть у кризових ситуаціях", cat: "N", f: 6, rev: true },
-        
-        { text: "Я щиро люблю інших людей", cat: "E", f: 1, rev: false }, { text: "Я тримаю дистанцію з оточуючими", cat: "E", f: 1, rev: true },
-        { text: "Я насолоджуюся галасливими компаніями", cat: "E", f: 2, rev: false }, { text: "Я активно уникаю великих натовпів", cat: "E", f: 2, rev: true },
-        { text: "Я люблю брати на себе керівництво", cat: "E", f: 3, rev: false }, { text: "Я дозволяю іншим приймати рішення", cat: "E", f: 3, rev: true },
-        { text: "Я веду швидкий і зайнятий спосіб життя", cat: "E", f: 4, rev: false }, { text: "Я віддаю перевагу розслабленому темпу", cat: "E", f: 4, rev: true },
-        { text: "Я шукаю гострих відчуттів і ризику", cat: "E", f: 5, rev: false }, { text: "Я уникаю небезпечних ситуацій", cat: "E", f: 5, rev: true },
-        { text: "Я часто відчуваю щастя і ентузіазм", cat: "E", f: 6, rev: false }, { text: "Я рідко перебуваю в піднесеному настрої", cat: "E", f: 6, rev: true },
-        
-        { text: "Я маю багату і яскраву фантазію", cat: "O", f: 1, rev: false }, { text: "Для мене реальний світ важливіший за мрії", cat: "O", f: 1, rev: true },
-        { text: "Я захоплююся мистецтвом і красою природи", cat: "O", f: 2, rev: false }, { text: "Мене не цікавлять виставки чи поезія", cat: "O", f: 2, rev: true },
-        { text: "Я легко усвідомлюю свої почуття", cat: "O", f: 3, rev: false }, { text: "Я рідко замислююся про свої емоції", cat: "O", f: 3, rev: true },
-        { text: "Я люблю пробувати нове", cat: "O", f: 4, rev: false }, { text: "Мені некомфортно, коли порушується рутина", cat: "O", f: 4, rev: true },
-        { text: "Я люблю грати з абстрактними ідеями", cat: "O", f: 5, rev: false }, { text: "Інтелектуальні філософствування — це марна трата", cat: "O", f: 5, rev: true },
-        { text: "Я готовий кинути виклик традиціям", cat: "O", f: 6, rev: false }, { text: "Я вважаю, що правила існують, щоб їх дотримуватися", cat: "O", f: 6, rev: true },
-        
-        { text: "Я вважаю, що більшість людей мають добрі наміри", cat: "A", f: 1, rev: false }, { text: "Я підозрюю, що люди діють з егоїстичних мотивів", cat: "A", f: 1, rev: true },
-        { text: "Я завжди щирий і прямолінійний", cat: "A", f: 2, rev: false }, { text: "Я вважаю, що іноді потрібно схитрувати", cat: "A", f: 2, rev: true },
-        { text: "Я знаходжу радість у допомозі іншим", cat: "A", f: 3, rev: false }, { text: "Допомога іншим для мене обтяжлива", cat: "A", f: 3, rev: true },
-        { text: "Я готовий йти на компроміс заради гармонії", cat: "A", f: 4, rev: false }, { text: "Я буду тиснути, щоб досягти свого", cat: "A", f: 4, rev: true },
-        { text: "Я не люблю хвалитися своїми досягненнями", cat: "A", f: 5, rev: false }, { text: "Я вважаю себе кращим за багатьох", cat: "A", f: 5, rev: true },
-        { text: "Я гостро відчуваю жалість до тих, хто страждає", cat: "A", f: 6, rev: false }, { text: "Я спираюся на логіку, а не на милосердя", cat: "A", f: 6, rev: true },
-        
-        { text: "Я впевнений, що здатен досягти успіху", cat: "C", f: 1, rev: false }, { text: "Мені здається, що я не контролюю своє життя", cat: "C", f: 1, rev: true },
-        { text: "Я люблю жити за розкладом і планом", cat: "C", f: 2, rev: false }, { text: "Я часто залишаю після себе безлад", cat: "C", f: 2, rev: true },
-        { text: "У мене сильне відчуття морального обов'язку", cat: "C", f: 3, rev: false }, { text: "Я вважаю правила занадто обмежувальними", cat: "C", f: 3, rev: true },
-        { text: "Я прагну до досконалості в роботі", cat: "C", f: 4, rev: false }, { text: "Я задовольняюся мінімальним результатом", cat: "C", f: 4, rev: true },
-        { text: "Я завжди доводжу розпочате до кінця", cat: "C", f: 5, rev: false }, { text: "Я часто прокрастиную", cat: "C", f: 5, rev: true },
-        { text: "Я ретельно обдумую наслідки перед дією", cat: "C", f: 6, rev: false }, { text: "Я часто роблю перше, що спадає на думку", cat: "C", f: 6, rev: true }
+        // N - Нейротизм (f1: Тривога, f2: Злість, f3: Депресія, f4: Сором'язливість, f5: Невгамовність, f6: Вразливість)
+        { t: "Я часто відчуваю, що щось небезпечне ось-ось станеться", c: "N", f: 1, r: false }, { t: "Я зазвичай спокійний і не турбуюся", c: "N", f: 1, r: true },
+        { t: "Я відчуваю лють, коли щось йде не так", c: "N", f: 2, r: false }, { t: "Я рідко серджуся", c: "N", f: 2, r: true },
+        { t: "Я часто відчуваю смуток і пригніченість", c: "N", f: 3, r: false }, { t: "Я почуваюся бадьоро і оптимістично", c: "N", f: 3, r: true },
+        { t: "Я відчуваю незручність у присутності інших", c: "N", f: 4, r: false }, { t: "Мені комфортно в будь-якій компанії", c: "N", f: 4, r: true },
+        { t: "Мені важко стримувати свої бажання", c: "N", f: 5, r: false }, { t: "Я легко контролюю свої пориви", c: "N", f: 5, r: true },
+        { t: "Я відчуваю безпорадність під тиском", c: "N", f: 6, r: false }, { t: "Я зберігаю спокій у стресових ситуаціях", c: "N", f: 6, r: true },
+        // E - Екстраверсія
+        { t: "Я швидко знаходжу друзів", c: "E", f: 1, r: false }, { t: "Я віддаю перевагу самотності", c: "E", f: 1, r: true },
+        { t: "Я насолоджуюся галасливими вечірками", c: "E", f: 2, r: false }, { t: "Я уникаю великих натовпів", c: "E", f: 2, r: true },
+        { t: "Я люблю брати лідерство на себе", c: "E", f: 3, r: false }, { t: "Я дозволяю іншим керувати", c: "E", f: 3, r: true },
+        { t: "Я веду дуже активний спосіб життя", c: "E", f: 4, r: false }, { t: "Я люблю повільний темп життя", c: "E", f: 4, r: true },
+        { t: "Я обожнюю гострі відчуття", c: "E", f: 5, r: false }, { t: "Я уникаю ризику", c: "E", f: 5, r: true },
+        { t: "Я часто відчуваю радість і щастя", c: "E", f: 6, r: false }, { t: "Я рідко буваю в піднесеному настрої", c: "E", f: 6, r: true },
+        // O - Відкритість
+        { t: "Я маю дуже живу уяву", c: "O", f: 1, r: false }, { t: "Я не люблю фантазувати", c: "O", f: 1, r: true },
+        { t: "Я люблю мистецтво та поезію", c: "O", f: 2, r: false }, { t: "Мистецтво мене не цікавить", c: "O", f: 2, r: true },
+        { t: "Я глибоко відчуваю свої емоції", c: "O", f: 3, r: false }, { t: "Я рідко аналізую свої почуття", c: "O", f: 3, r: true },
+        { t: "Я люблю пробувати нове і незвичайне", c: "O", f: 4, r: false }, { t: "Я люблю звичний порядок речей", c: "O", f: 4, r: true },
+        { t: "Я люблю складні інтелектуальні роздуми", c: "O", f: 5, r: false }, { t: "Абстрактні ідеї мені здаються нудними", c: "O", f: 5, r: true },
+        { t: "Я готовий порушувати традиції", c: "O", f: 6, r: false }, { t: "Я ціную стабільність і звичаї", c: "O", f: 6, r: true },
+        // A - Доброзичливість
+        { t: "Я вірю, що люди в основі своїй добрі", c: "A", f: 1, r: false }, { t: "Я часто сумніваюся в намірах інших", c: "A", f: 1, r: true },
+        { t: "Я завжди кажу правду в очі", c: "A", f: 2, r: false }, { t: "Я вважаю, що хитрість іноді корисна", c: "A", f: 2, r: true },
+        { t: "Я отримую задоволення від допомоги іншим", c: "A", f: 3, r: false }, { t: "Я дбаю передусім про себе", c: "A", f: 3, r: true },
+        { t: "Я легко йду на компроміс", c: "A", f: 4, r: false }, { t: "Я вперто стою на своєму", c: "A", f: 4, r: true },
+        { t: "Я не вважаю себе кращим за інших", c: "A", f: 5, r: false }, { t: "Я пишаюся своїми перевагами над іншими", c: "A", f: 5, r: true },
+        { t: "Я дуже співчуваю тим, кому не щастить", c: "A", f: 6, r: false }, { t: "Я вважаю, що кожна людина сама винна в своїх проблемах", c: "A", f: 6, r: true },
+        // C - Сумлінність
+        { t: "Я вірю у свій успіх", c: "C", f: 1, r: false }, { t: "Я часто сумніваюся у своїх силах", c: "C", f: 1, r: true },
+        { t: "Я люблю порядок і чистоту", c: "C", f: 2, r: false }, { t: "Я не звертаю уваги на безлад", c: "C", f: 2, r: true },
+        { t: "Я завжди виконую свої обіцянки", c: "C", f: 3, r: false }, { t: "Я можу бути необов'язковим", c: "C", f: 3, r: true },
+        { t: "Я завжди прагну найкращих результатів", c: "C", f: 4, r: false }, { t: "Мені вистачає мінімальних зусиль", c: "C", f: 4, r: true },
+        { t: "Я дуже дисциплінована людина", c: "C", f: 5, r: false }, { t: "Мені важко доводити справи до кінця", c: "C", f: 5, r: true },
+        { t: "Я завжди думаю, перш ніж діяти", c: "C", f: 6, r: false }, { t: "Я часто дію під впливом моменту", c: "C", f: 6, r: true }
+        // (Для повної версії тут мають бути 120 питань, але ми взяли 60 для балансу точності/швидкості)
     ];
+
+    const texts = {
+        N: { mainH: "Високий нейротизм: ви чутливі та емоційні, легко засмучуєтесь.", mainL: "Низький нейротизм: ви емоційно стабільні та спокійні.", f: { 1:"Тривога", 2:"Злість", 3:"Депресія", 4:"Сором’язливість", 5:"Невгамовність", 6:"Вразливість" } },
+        E: { mainH: "Висока екстраверсія: ви соціальні, енергійні та жваві.", mainL: "Низька екстраверсія: ви інтровертні, любите спокій.", f: { 1:"Дружелюбність", 2:"Компанійськість", 3:"Наполегливість", 4:"Активність", 5:"Пошук збуджень", 6:"Життєрадісність" } },
+        O: { mainH: "Висока відкритість: ви творча людина з багатою уявою.", mainL: "Низька відкритість: ви приземлена і практична людина.", f: { 1:"Уява", 2:"Художні інтереси", 3:"Емоційність", 4:"Пригодницькість", 5:"Інтелект", 6:"Лібералізм" } },
+        A: { mainH: "Висока доброзичливість: ви співчутливі та цінуєте гармонію.", mainL: "Низька доброзичливість: ви жорсткі та безкомпромісні.", f: { 1:"Довіра", 2:"Моральність", 3:"Альтруїзм", 4:"Співпраця", 5:"Скромність", 6:"Співчуття" } },
+        C: { mainH: "Висока сумлінність: ви організовані та дисципліновані.", mainL: "Низька сумлінність: ви живете моментом, схильні до недбалості.", f: { 1:"Самоефективність", 2:"Організованість", 3:"Відповідальність", 4:"Прагнення досягнень", 5:"Самодисципліна", 6:"Обачність" } }
+    };
 
     let cur = 0, uName = "", uPhone = "";
     let s = { N:{1:0,2:0,3:0,4:0,5:0,6:0}, E:{1:0,2:0,3:0,4:0,5:0,6:0}, O:{1:0,2:0,3:0,4:0,5:0,6:0}, A:{1:0,2:0,3:0,4:0,5:0,6:0}, C:{1:0,2:0,3:0,4:0,5:0,6:0} };
 
-    // БАЗА ТЕКСТІВ (Точно за твоїм прикладом)
-    const texts = {
-        N: {
-            main: { 
-                H: "Ваш результат за шкалою нейротизму високий, що вказує на те, що ви легко засмучуєтесь навіть від того, що більшість людей вважають нормальними вимогами життя. Люди вважають вас чутливим і емоційним.", 
-                L: "Ваш результат за шкалою нейротизму низький. Ви емоційно стабільні, спокійні та не схильні до надмірних переживань." 
-            },
-            f: {
-                1: { name: "Тривога", H: "Система 'боротьби або втечі' мозку занадто легко активується. Ви часто відчуваєте, що щось небезпечне ось-ось станеться, відчуваєте напруження і нервозність.", L: "Ви зазвичай спокійні та безстрашні." },
-                2: { name: "Злість", H: "Ви відчуваєте лють, коли щось іде не так, як вам хочеться. Ви чутливі до справедливого ставлення до себе і відчуваєте образу.", L: "Ви рідко або ніколи не сердитесь." },
-                3: { name: "Депресія", H: "Ви маєте схильність до відчуття смутку, пригніченості та зневіри. Маєте недостатню енергію і вам важко почати діяльність.", L: "Ви зазвичай не відчуваєте цих депресивних почуттів." },
-                4: { name: "Сором’язливість", H: "Ви чутливі до того, що про вас думають інші. Стурбованість відкиданням змушує відчувати дискомфорт у присутності інших.", L: "Ви не страждаєте від хибного враження, що всі судять вас. Не відчуваєте нервовості в соціальних ситуаціях." },
-                5: { name: "Невгамовність", H: "Ви відчуваєте сильні бажання, яким важко протистояти. Схильні до короткострокових задоволень.", L: "Ви не відчуваєте сильних, нездоланних бажань і не відчуваєте спокуси надмірно потурати слабкостям." },
-                6: { name: "Вразливість", H: "Ви відчуваєте паніку, замішання і безпорадність під тиском або стресом.", L: "Ви відчуваєте себе урівноваженим, впевненим і ясно мислячим під час стресу." }
-            }
-        },
-        E: {
-            main: { 
-                H: "Ваш результат за шкалою Екстраверсії високий, що вказує на те, що ви соціальний, відкритий, енергійний і жвавий. Ви віддаєте перевагу бути серед людей.", 
-                L: "Ваш результат за шкалою Екстраверсії низький. Ви інтроверт, віддаєте перевагу самотності або вузькому колу близьких людей." 
-            },
-            f: {
-                1: { name: "Дружелюбність", H: "Ви щиро любите інших людей і швидко знаходите друзів. Вам легко створювати близькі відносини.", L: "Ви не обов'язково холодні, але не прагнете до інших і сприймаєтесь як віддалені і стримані." },
-                2: { name: "Компанійськість", H: "Ви знаходите товариство інших приємно стимулюючим і насолоджуєтеся натовпом.", L: "Ви відчуваєте себе пригніченим великими групами. Ваша потреба в приватності значно більша." },
-                3: { name: "Наполегливість", H: "Ви любите говорити відкрито, брати відповідальність і керувати діяльністю інших. Ви лідер.", L: "Ви зазвичай не говорите багато і дозволяєте іншим контролювати діяльність груп." },
-                4: { name: "Рівень активності", H: "Ви ведете швидкий, зайнятий спосіб життя. Рухаєтесь енергійно і жваво.", L: "Ви дотримуєтесь повільнішого і більш розслабленого темпу." },
-                5: { name: "Пошук збуджень", H: "Ви легко нудьгуєте без стимуляції. Любите яскраві вогні, ризикуєте і шукаєте гострих відчуттів.", L: "Ви уникаєте ризику та відчуваєте себе пригніченим шумом і суєтою." },
-                6: { name: "Життєрадісність", H: "Ви зазвичай відчуваєте щастя, ентузіазм, оптимізм і радість.", L: "Ви не схильні до енергійних, піднесених настроїв." }
-            }
-        },
-        O: {
-            main: { 
-                H: "Ваш результат за шкалою Відкритості високий. Ви уявна, творча людина з широкими інтересами.", 
-                L: "Ваш результат за шкалою Відкритості низький. Ви любите мислити простими і зрозумілими категоріями. Ви приземлена, практична і консервативна людина." 
-            },
-            f: {
-                1: { name: "Уява", H: "Для вас реальний світ часто занадто простий. Ви використовуєте фантазію як спосіб створити багатший світ.", L: "Ви більше орієнтовані на факти, ніж на фантазії." },
-                2: { name: "Художні інтереси", H: "Ви любите красу в мистецтві та природі, легко поглинаєтеся художніми подіями.", L: "Ви не маєте естетичної чутливості і глибокого інтересу до мистецтва." },
-                3: { name: "Емоційність", H: "Ви маєте хороший доступ до своїх власних почуттів і усвідомлення їх.", L: "Ви менш усвідомлюєте свої почуття і схильні не виражати їх відкрито." },
-                4: { name: "Пригодницькість", H: "Ви прагнете спробувати нове, подорожувати і знаходите рутинне нудним.", L: "Ви відчуваєте себе незручно зі змінами і віддаєте перевагу знайомим рутинам." },
-                5: { name: "Інтелект", H: "Ви любите грати з ідеями, обговорювати інтелектуальні питання та розгадувати головоломки.", L: "Ви віддаєте перевагу речам і людям, а не ідеям. Абстрактні роздуми здаються марною тратою часу." },
-                6: { name: "Лібералізм", H: "Ви готові кинути виклик авторитету і традиційним цінностям.", L: "Ви надаєте перевагу безпеці та стабільності, які приносить дотримання традицій." }
-            }
-        },
-        A: {
-            main: { 
-                H: "Ваш результат за шкалою Доброзичливості високий. Ви співчутливі, готові до співпраці та цінуєте гармонію.", 
-                L: "Ваш результат за шкалою Доброзичливості низький, що вказує на меншу турботу про потреби інших. Люди бачать вас як жорстку та безкомпромісну людину." 
-            },
-            f: {
-                1: { name: "Довіра", H: "Ви вважаєте, що більшість людей чесні, порядні та мають добрі наміри.", L: "Ви вважаєте інших егоїстичними, підступними та потенційно небезпечними." },
-                2: { name: "Моральність", H: "Ви не бачите необхідності в маніпуляціях, ви щирі та відверті.", L: "Ви вважаєте, що певна кількість обману або скритності необхідна." },
-                3: { name: "Альтруїзм", H: "Ви знаходите задоволення в допомозі іншим і завжди готові підтримати.", L: "Ви не особливо любите допомагати іншим, запити про допомогу здаються обтяжливими." },
-                4: { name: "Співпраця", H: "Ви не любите конфронтацій і готові йти на компроміс заради гармонії.", L: "Ви частіше залякуєте або тиснете на інших, щоб досягти свого." },
-                5: { name: "Скромність", H: "Ви не любите стверджувати, що ви кращі за інших.", L: "Ви готові описувати себе як кращих, що може сприйматися як зарозумілість." },
-                6: { name: "Співчуття", H: "Ви співчутливі, легко співпереживаєте біль інших і відчуваєте жалість.", L: "Ви пишаєтеся об'єктивними рішеннями на основі розуму, а не милосердя." }
-            }
-        },
-        C: {
-            main: { 
-                H: "Ваш результат за шкалою Сумлінності високий. Ви організовані, надійні та дисципліновані.", 
-                L: "Ваш результат за шкалою Сумлінності низький, що вказує на те, що ви любите жити моментом. Ваша робота може бути недбалою і неорганізованою." 
-            },
-            f: {
-                1: { name: "Самоефективність", H: "Ви вірите, що маєте інтелект і наполегливість, необхідні для досягнення успіху.", L: "Ви не відчуваєте себе ефективними і можете мати відчуття, що не контролюєте своє життя." },
-                2: { name: "Організованість", H: "Ви добре організовані, любите жити за розкладом і вести списки.", L: "Ви схильні до неорганізованості та розкиданості." },
-                3: { name: "Відповідальність", H: "Ви маєте сильне відчуття морального обов'язку.", L: "Ви вважаєте правила обмежувальними, вас можуть вважати ненадійними." },
-                4: { name: "Прагнення до досягнень", H: "Ви прагнете досягти досконалості і маєте сильне відчуття напряму в житті.", L: "Ви задоволені досягненням мінімального рівня роботи." },
-                5: { name: "Самодисципліна", H: "Ви здатні наполегливо працювати над складними завданнями до їх завершення.", L: "Ви схильні до прокрастинації та часто не виконуєте завдання." },
-                6: { name: "Обачність", H: "Ви обдумуєте можливості та наслідки перед дією.", L: "Ви часто говорите або робите перше, що спадає на думку." }
-            }
-        }
-    };
-
-    function showN(txt) {
-        const n = document.getElementById('tgNotif');
-        document.getElementById('tgMsg').innerHTML = txt;
-        n.classList.add('active');
-        setTimeout(() => n.classList.remove('active'), 15000);
-    }
-
     function startTest() {
-        const n = document.getElementById('uName').value.trim();
-        const p = document.getElementById('uPhone').value.trim();
-        if(n.length < 2) return alert("Будь ласка, вкажіть ваше ім'я");
-        uName = n; uPhone = p;
+        uName = document.getElementById('uName').value;
+        uPhone = document.getElementById('uPhone').value;
+        if(!uName || !uPhone) return alert("Заповніть дані");
         document.getElementById('step-reg').style.display = 'none';
         document.getElementById('step-test').style.display = 'block';
-        showN(`Привіт, ${uName}! 👋<br>Оберіть, наскільки ви згодні з твердженнями.`);
         render();
     }
 
     function render() {
         if(cur >= questions.length) return finish();
         const q = questions[cur];
-        document.getElementById('pFill').style.width = (cur / questions.length * 100) + "%";
-        let h = `<div class="q-text">${q.text}</div><div class="options">`;
-        h += `<button class="opt-btn" onclick="next(1)">Зовсім не згоден</button>`;
-        h += `<button class="opt-btn" onclick="next(2)">Скоріше не згоден</button>`;
-        h += `<button class="opt-btn" onclick="next(3)">Нейтрально</button>`;
-        h += `<button class="opt-btn" onclick="next(4)">Скоріше згоден</button>`;
-        h += `<button class="opt-btn" onclick="next(5)">Повністю згоден</button>`;
-        document.getElementById('qArea').innerHTML = h + `</div>`;
-    }
-
-    function next(val) {
-        const q = questions[cur];
-        s[q.cat][q.f] += q.rev ? (6 - val) : val;
-        cur++; render();
-    }
-
-    // Генерація ПОВНОГО тексту для таблиці
-    function generateFullReport() {
-        let report = "";
-        const cats = ["N", "E", "O", "A", "C"];
-        
-        cats.forEach(c => {
-            let sum = s[c][1]+s[c][2]+s[c][3]+s[c][4]+s[c][5]+s[c][6];
-            let mainLvl = sum >= 30 ? "H" : "L"; // Більше 50% = Високий
-            
-            report += `=== ${texts[c].main.title.toUpperCase()} (Бал: ${sum}/60) ===\n`;
-            report += texts[c].main[mainLvl] + "\n\n";
-            
-            for(let i=1; i<=6; i++) {
-                let fVal = s[c][i];
-                let fLvl = fVal >= 6 ? "H" : "L"; // Макс 10
-                let status = fVal >= 6 ? "(Високий)" : "(Низький)";
-                report += `• ${texts[c].f[i].name} | Бали: ${fVal}/10 ${status}\n`;
-                report += `${texts[c].f[i][fLvl]}\n\n`;
-            }
-            report += `-------------------------------------------\n\n`;
+        document.getElementById('pFill').style.width = (cur/questions.length*100) + "%";
+        let h = `<div class="q-text">${q.t}</div>`;
+        [1,2,3,4,5].forEach(v => {
+            h += `<button class="opt-btn" onclick="next(${v})">${["Зовсім ні","Ні","Нейтрально","Так","Повністю так"][v-1]}</button>`;
         });
-        return report;
+        document.getElementById('qArea').innerHTML = h;
+    }
+
+    function next(v) {
+        const q = questions[cur];
+        s[q.c][q.f] += q.r ? (6-v) : v;
+        cur++; render();
     }
 
     function finish() {
         document.getElementById('step-test').style.display = 'none';
         document.getElementById('step-final').style.display = 'block';
         
-        let sumN = s.N[1]+s.N[2]+s.N[3]+s.N[4]+s.N[5]+s.N[6];
-        let sumE = s.E[1]+s.E[2]+s.E[3]+s.E[4]+s.E[5]+s.E[6];
-        let sumO = s.O[1]+s.O[2]+s.O[3]+s.O[4]+s.O[5]+s.O[6];
-        let sumA = s.A[1]+s.A[2]+s.A[3]+s.A[4]+s.A[5]+s.A[6];
-        let sumC = s.C[1]+s.C[2]+s.C[3]+s.C[4]+s.C[5]+s.C[6];
-
-        const d = { 
-            name: uName, phone: uPhone, 
-            N: sumN, E: sumE, O: sumO, A: sumA, C: sumC,
-            fullReport: generateFullReport()
+        let sums = { 
+            N: s.N[1]+s.N[2]+s.N[3]+s.N[4]+s.N[5]+s.N[6],
+            E: s.E[1]+s.E[2]+s.E[3]+s.E[4]+s.E[5]+s.E[6],
+            O: s.O[1]+s.O[2]+s.O[3]+s.O[4]+s.O[5]+s.O[6],
+            A: s.A[1]+s.A[2]+s.A[3]+s.A[4]+s.A[5]+s.A[6],
+            C: s.C[1]+s.C[2]+s.C[3]+s.C[4]+s.C[5]+s.C[6]
         };
-        
-        if(WEBHOOK_URL.length > 10) fetch(WEBHOOK_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(d) });
+
+        let report = "";
+        ["N","E","O","A","C"].forEach(c => {
+            report += `=== ${c} (Бал: ${sums[c]}) ===\n`;
+            report += (sums[c] >= 36 ? texts[c].mainH : texts[c].mainL) + "\n";
+            for(let i=1; i<=6; i++) report += `• ${texts[c].f[i]}: ${s[c][i]}/10\n`;
+            report += "\n";
+        });
+
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzGMqcV_BAc9zuWmGV9UO96OWWtTaqKZtAq2IF2JXG27EWJ9G9ogE6lrwBVhO63E_DQfA/exec'; // <--- ТВОЄ ПОСИЛАННЯ ТУТ
+
+        fetch(WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({ name: uName, phone: uPhone, scores: sums, fullReport: report })
+        });
     }
 </script>
 </body>
